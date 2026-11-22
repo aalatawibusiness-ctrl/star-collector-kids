@@ -1,1 +1,60 @@
-PLACEHOLDER_WILL_BE_REPLACED
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>تجميع النجوم - ليلى ويعقوب ويزيد</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; user-select:none; }
+body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #0f3460, #533483); color:white; height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; }
+h1 { font-size:2rem; margin-bottom:20px; }
+.chars { display:flex; flex-direction:column; gap:15px; width:90%; max-width:400px; }
+.char { background:rgba(255,255,255,0.15); border:2px solid white; border-radius:15px; padding:15px; cursor:pointer; }
+.char:active { transform:scale(0.97); }
+canvas { display:none; }
+</style>
+</head>
+<body>
+<div id="start">
+  <h1>⭐ تجميع النجوم ⭐</h1>
+  <p>اختر من سيلعب:</p>
+  <div class="chars">
+    <div class="char" onclick="start('layla')">👧 ليلى (6 سنوات) - سريعة</div>
+    <div class="char" onclick="start('yaqoub')">👦 يعقوب (3 سنوات) - متوسط</div>
+    <div class="char" onclick="start('yazeed')">👶 يزيد (سنة) - سهل جداً</div>
+  </div>
+</div>
+<canvas id="c"></canvas>
+<script>
+function start(name) {
+  document.getElementById('start').style.display = 'none';
+  const c = document.getElementById('c');
+  c.style.display = 'block';
+  c.width = window.innerWidth;
+  c.height = window.innerHeight;
+  const ctx = c.getContext('2d');
+  let score = 0;
+  const speeds = {layla:6, yaqoub:4.5, yazeed:3};
+  let px = c.width/2 - 25;
+  function loop() {
+    ctx.fillStyle = '#0a0a23';
+    ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle = 'gold';
+    ctx.font = '30px Arial';
+    ctx.fillText('⭐ ' + score, 20, 40);
+    ctx.fillStyle = '#4fc3f7';
+    ctx.fillRect(px, c.height-80, 50, 50);
+    ctx.fillText(name, px, c.height-90);
+    requestAnimationFrame(loop);
+  }
+  loop();
+  c.addEventListener('touchmove', e => {
+    px = e.touches[0].clientX - 25;
+    if (px < 0) px = 0;
+    if (px > c.width-50) px = c.width-50;
+  });
+  setInterval(() => { score++; }, 1000);
+}
+</script>
+</body>
+</html>
